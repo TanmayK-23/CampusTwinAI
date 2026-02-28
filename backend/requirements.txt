@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pydantic
+pydantic-settings
+websockets
+scikit-learn
+xgboost
+torch
+numpy
+pandas
+shap
