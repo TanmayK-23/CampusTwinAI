@@ -15,7 +15,7 @@ Campus Twin AI is a full-stack, predictive digital twin system built for smart c
 - **Backend**: FastAPI, Uvicorn, SQLite (Zero-Config MVP for smooth Demo), WebSockets via FastAPI
 - **ML/AI**: PyTorch, Scikit-Learn, SHAP, NetworkX
 
-## Setup Instructions (Mac M2 / RTX 3050)
+## Setup Instructions
 
 ### 1. Backend Setup
 Navigate to the project root and create a virtual environment:
