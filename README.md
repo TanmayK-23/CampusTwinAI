@@ -4,16 +4,16 @@
 Campus Twin AI is a full-stack, predictive digital twin system built for smart campuses. It provides real-time crowd density tracking and AI-driven shuttle routing, displayed seamlessly on a 3D campus map. 
 
 ## Features
-- **3D Campus Map**: Built with Three.js (`@react-three/fiber`), rendering live heatmaps for crowd density.
-- **Predictive ML Models**: PyTorch-based MLPs for crowd forecasting (with SHAP feature importance).
-- **GPU Benchmarking**: Real-time evaluation of model inference speed (CPU vs GPU).
-- **Simulation Mode**: Test "what-if" scenarios (e.g., Opening Gates, Adding Shuttles) and instantly see the calculated impact on congestion, downtime, and energy on a glowing overlay dashboard.
+- **3D Campus Map**: Built with Three.js (`@react-three/fiber`), rendering 8 custom building zones (including the Auditorium) based on real-time crowd density.
+- **Predictive ML Models**: Employs an external pre-trained XGBoost Regressor and Classifier pipeline (`campus_xgb_classifier.json`) for live intelligence mapping.
+- **GPU Benchmarking**: Real-time evaluation of backend inference speed (CPU vs GPU speeds).
+- **Simulation Mode**: Test "what-if" scenarios (e.g., Opening Gates, Adding Shuttles) and instantly see the calculated impact on congestion on a glowing overlay dashboard.
 - **Demo Reliability Mode**: A dedicated script to preload a consistent database state for flawless presentations.
 
 ## Tech Stack
 - **Frontend**: React (Vite), TailwindCSS, Three.js, Recharts, Lucide Icons
 - **Backend**: FastAPI, Uvicorn, SQLite (Zero-Config MVP for smooth Demo), WebSockets via FastAPI
-- **ML/AI**: PyTorch, Scikit-Learn, SHAP, NetworkX
+- **ML/AI**: XGBoost, Scikit-Learn, NetworkX
 
 ## Setup Instructions
 
@@ -25,17 +25,14 @@ source venv/bin/activate
 pip install -r backend/requirements.txt
 ```
 
-### 2. Generate Data and Train Models
-Our data generation and ML pipelines are ready natively:
+### 2. Generate Data and Preload State
+Run these two scripts to initialize the background CSV data and preload the SQLite database for a guaranteed flawless UI demo:
 ```bash
-# Generate synthetic datasets (Crowd, Equipment, Shuttle usage)
+# Generate synthetic temporal arrays and datasets
 export PYTHONPATH=. 
 python3 data/generate_data.py
 
-# Train PyTorch MLPs and save models
-python3 models/train.py
-
-# Preload the database for Demo Reliability Mode
+# Inject the XGBoost pre-trained models into the DB for Demo Reliability Mode
 python3 preload_demo_state.py
 ```
 
@@ -54,5 +51,5 @@ npm run dev
 ```
 Visit `http://localhost:5173` in your browser.
 
-## How to run GPU Benchmark
-The dashboard automatically fetches inference metrics from the `/benchmark/inference` endpoint. The PyTorch script in `backend/ml/benchmark.py` automatically detects `mps` on your Mac M2 or `cuda` on an RTX 3050 and calculates the inference speedup compared to standard CPU execution. The results are permanently displayed on the top Navigation Bar.
+## How to run Hardware Benchmark
+The dashboard automatically fetches inference metrics from the `/benchmark/inference` endpoint. The PyTorch script in `backend/ml/benchmark.py` automatically detects `mps` on your Mac M2 or `cuda` on an RTX GPU, spinning up generic execution loops to calculate parallel hardware speedups compared to standard CPU execution. The results are permanently displayed on the top Navigation Bar.
