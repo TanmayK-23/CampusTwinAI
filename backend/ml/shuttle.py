@@ -2,12 +2,18 @@ import networkx as nx
 
 campus_graph = nx.Graph()
 # Add edges with 'time' (minutes) as weight
-campus_graph.add_edge("Gate1", "Library", weight=3)
-campus_graph.add_edge("Library", "Hostel", weight=5)
-campus_graph.add_edge("Hostel", "Cafeteria", weight=2)
-campus_graph.add_edge("Cafeteria", "DeptA", weight=4)
-campus_graph.add_edge("Gate1", "DeptA", weight=6)
-campus_graph.add_edge("Library", "Cafeteria", weight=4)
+campus_graph.add_edge("Gate1", "MB_Block", weight=3)
+campus_graph.add_edge("MB_Block", "Hostel", weight=5)
+campus_graph.add_edge("Hostel", "Canteen", weight=2)
+campus_graph.add_edge("Canteen", "Biotech_Block", weight=4)
+campus_graph.add_edge("Biotech_Block", "TP1", weight=3)
+campus_graph.add_edge("TP1", "TP2", weight=2)
+campus_graph.add_edge("TP2", "Auditorium", weight=3)
+campus_graph.add_edge("Auditorium", "Ground", weight=4)
+campus_graph.add_edge("Ground", "Gate1", weight=5)
+# Cross paths
+campus_graph.add_edge("MB_Block", "Canteen", weight=3)
+campus_graph.add_edge("Gate1", "Auditorium", weight=6)
 
 def optimize_route(current_stop: str, target_stops: list[str]) -> dict:
     """

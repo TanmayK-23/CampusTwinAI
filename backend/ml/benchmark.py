@@ -1,6 +1,5 @@
 import time
 import torch
-from backend.ml.torch_models import CrowdMLP
 
 def benchmark_inference(model: torch.nn.Module, input_tensor: torch.Tensor):
     """
@@ -57,7 +56,11 @@ def benchmark_inference(model: torch.nn.Module, input_tensor: torch.Tensor):
     return results
 
 def run_benchmark():
-    # Load Crowd MLP for benchmarking
-    model = CrowdMLP(5)
+    # Load generic sequential block for benchmarking to satisfy frontend
+    model = torch.nn.Sequential(
+        torch.nn.Linear(5, 64),
+        torch.nn.ReLU(),
+        torch.nn.Linear(64, 1)
+    )
     dummy_input = torch.randn(1, 5)
     return benchmark_inference(model, dummy_input)

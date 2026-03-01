@@ -3,11 +3,14 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, Text } from '@react-three/drei';
 
 const BUILDINGS = [
-    { id: 'Library', position: [-4, 0.5, -4], size: [3, 1, 3] },
-    { id: 'Gate3', position: [5, 0.5, 4], size: [2, 1, 2] },
-    { id: 'Cafeteria', position: [2, 0.5, -3], size: [4, 1, 4] },
-    { id: 'HostelArea', position: [-5, 1, 3], size: [3, 2, 5] },
-    { id: 'MainBlock', position: [0, 1.5, 0], size: [5, 3, 4] },
+    { id: 'Biotech_Block', position: [-8, 1.0, -8], size: [3, 2, 3] },
+    { id: 'Canteen', position: [5, 0.5, -6], size: [4, 1, 4] },
+    { id: 'Ground', position: [-9, 0.1, 0], size: [6, 0.2, 5] },  // Flat sports ground moved left
+    { id: 'Hostel', position: [-6, 1.5, 8], size: [3, 3, 5] },
+    { id: 'MB_Block', position: [0, 2.0, -1], size: [5, 4, 4] },
+    { id: 'TP1', position: [7, 1.5, 2], size: [3, 3, 3] },
+    { id: 'TP2', position: [10, 1.5, 8], size: [3, 3, 3] },
+    { id: 'Auditorium', position: [-2, 1.0, -10], size: [6, 2.5, 5] },
 ];
 
 const ROADS = [
@@ -28,25 +31,24 @@ const GRASS_AREAS = [
     { position: [-4, 0.01, 5], size: [6, 3], rotation: [-Math.PI / 2, 0, 0] },
 ];
 
-function getZoneColor(density) {
-    if (!density) return '#10b981'; // green
-    if (density > 100) return '#ef4444'; // red
-    if (density > 50) return '#facc15'; // yellow
+function getZoneColor(status) {
+    if (status === 'High Alert') return '#ef4444'; // red
+    if (status === 'Moderate') return '#facc15'; // yellow
     return '#10b981'; // green
 }
 
-function getZoneGlow(density) {
-    if (!density) return 0.5;
-    if (density > 100) return 2.0;
-    if (density > 50) return 1.0;
+function getZoneGlow(status) {
+    if (status === 'High Alert') return 2.0;
+    if (status === 'Moderate') return 1.0;
     return 0.5;
 }
 
 function Building({ data, crowdData }) {
     const crowdInfo = crowdData.find(c => c.zone_id === data.id);
     const density = crowdInfo?.density || 0;
-    const color = getZoneColor(density);
-    const glow = getZoneGlow(density);
+    const status = crowdInfo?.status || 'Normal';
+    const color = getZoneColor(status);
+    const glow = getZoneGlow(status);
 
     return (
         <group position={data.position}>

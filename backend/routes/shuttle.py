@@ -13,7 +13,7 @@ def optimize_shuttle(route_name: str = "Campus Loop", db: Session = Depends(get_
     db_route = db.query(schema.ShuttleRoute).filter(schema.ShuttleRoute.route_name == route_name).first()
     if not db_route:
         # Default fallback
-        stops = ["Gate1", "Library", "Hostel", "Cafeteria"]
+        stops = ["Gate1", "MB_Block", "Hostel", "Canteen", "Auditorium"]
     else:
         stops = db_route.stops
         

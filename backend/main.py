@@ -30,15 +30,20 @@ async def update_live_data():
         # We need a new session per task to avoid thread issues
         db: Session = SessionLocal()
         try:
-            zones = ["Library", "Gate3", "Cafeteria", "HostelArea", "MainBlock"]
+            # Get the exact model prediction for the current hour
+            current_predictions = crowd.predict_crowd(hours_ahead=0)["predicted_densities"]
+            
+            zones = ["Biotech_Block", "Canteen", "Ground", "Hostel", "MB_Block", "TP1", "TP2", "Auditorium"]
             for zone in zones:
                 latest = db.query(schema.CrowdLog).filter(schema.CrowdLog.zone_id == zone).order_by(schema.CrowdLog.id.desc()).first()
+                target_density = current_predictions.get(zone, 50)
+                
                 if latest:
-                    # Random walk by -5 to +5 people
-                    diff = random.uniform(-5, 5)
-                    new_density = max(0, latest.density + diff)
+                    # Move 10% towards the ML model target + 2% random jitter to keep it looking "alive" realtime
+                    diff = (target_density - latest.density) * 0.1
+                    jitter = random.uniform(-2, 2)
+                    new_density = max(0, latest.density + diff + jitter)
                     
-                    # Create a new log instead of mutating so we have historical graph (if needed) or just update latest
                     latest.density = new_density
             db.commit()
         except Exception as e:

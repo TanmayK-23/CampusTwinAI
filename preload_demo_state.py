@@ -41,30 +41,30 @@ def preload_database():
         name="Tech Symposium 2026",
         start_time=datetime.now(),
         end_time=datetime.now() + timedelta(hours=4),
-        impact_zone="MainBlock"
+        impact_zone="MB_Block"
     )
     db.add(demo_event)
     
     # 4. Load partial crowd logs (just the demo state)
-    # We will insert a known crowd spike at MainBlock
-    zones = ["Library", "Gate3", "Cafeteria", "HostelArea", "MainBlock"]
+    # We will insert a known crowd spike at MB_Block
+    zones = ["Biotech_Block", "Canteen", "Ground", "Hostel", "MB_Block", "TP1", "TP2", "Auditorium"]
     now = datetime.now()
     
     for zone in zones:
         density = 50.0
-        if zone == "MainBlock": density = 180.0 # Force crowd spike for demo
+        if zone == "MB_Block": density = 180.0 # Force crowd spike for demo
         log = schema.CrowdLog(
             zone_id=zone,
             timestamp=now,
             density=density,
-            event_flag=True if zone == "MainBlock" else False,
+            event_flag=True if zone == "MB_Block" else False,
             weather_flag="clear"
         )
         db.add(log)
         
     # 5. Default shuttle routes
-    route1 = schema.ShuttleRoute(route_name="Campus Loop", stops=["Gate1", "Library", "Hostel", "Cafeteria"])
-    route2 = schema.ShuttleRoute(route_name="Express Dept", stops=["Gate1", "DeptA"])
+    route1 = schema.ShuttleRoute(route_name="Campus Loop", stops=["Gate1", "MB_Block", "Hostel", "Canteen", "Auditorium"])
+    route2 = schema.ShuttleRoute(route_name="Express Dept", stops=["Gate1", "Biotech_Block", "TP1"])
     db.add(route1)
     db.add(route2)
 

@@ -7,7 +7,7 @@ export default function Dashboard({ crowd, shuttle }) {
     const totalDensity = crowd.reduce((sum, zone) => sum + (zone.density || 0), 0);
 
     return (
-        <div className="flex flex-col gap-4 h-full">
+        <div className="flex flex-col gap-4">
             <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 <Activity size={16} /> Live Telemetry
             </h2>
@@ -23,7 +23,7 @@ export default function Dashboard({ crowd, shuttle }) {
                 <div className="text-indigo-400 text-xs font-semibold mb-2 flex items-center gap-1"><Bus size={14} /> Ai Route Optimizer</div>
                 {shuttle ? (
                     <div>
-                        <div className="text-sm font-medium text-slate-200 mb-2 truncate">
+                        <div className="text-sm font-medium text-slate-200 mb-2 leading-relaxed">
                             {shuttle.suggested_route.join(" → ")}
                         </div>
                         <div className="flex justify-between items-end border-t border-indigo-500/10 pt-2 mt-2">

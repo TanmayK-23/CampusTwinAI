@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def generate_crowd_data():
-    zones = ["Library", "Gate3", "Cafeteria", "HostelArea", "MainBlock"]
+    zones = ["Biotech_Block", "Canteen", "Ground", "Hostel", "MB_Block", "TP1", "TP2", "Auditorium"]
     start_date = datetime.now() - timedelta(days=30)
     
     records = []
@@ -38,8 +38,8 @@ def generate_crowd_data():
                     base *= 0.7
                     
                 # Zone specifics
-                if zone == "Library" and hour > 21: base *= 2  # late night studying
-                if zone == "Gate3" and (hour == 9 or hour == 17): base *= 1.5
+                if zone == "Hostel" and hour > 21: base *= 2  # late night studying
+                if zone in ["TP1", "TP2"] and (hour == 9 or hour == 17): base *= 1.5
                 
                 # Add noise
                 density = max(0, int(np.random.normal(base, base * 0.2)))

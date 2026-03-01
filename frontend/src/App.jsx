@@ -32,7 +32,7 @@ function App() {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 10000);
+    const interval = setInterval(fetchData, 5000); // Poll faster for the demo
     return () => clearInterval(interval);
   }, []);
 
